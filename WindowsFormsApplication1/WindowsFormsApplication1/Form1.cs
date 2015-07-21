@@ -60,7 +60,7 @@ namespace WindowsFormsApplication1
         {
             foreach (var word in GetFile.Output)
             {
-                string[] row = { word.ToString(), "test" };
+                string[] row = { word.Word, word.Definition, word.Type, word.Date};
                 listView1.Items.Add(GetFile.LinesProcessed.ToString()).SubItems.AddRange(row);      
             }
         }
