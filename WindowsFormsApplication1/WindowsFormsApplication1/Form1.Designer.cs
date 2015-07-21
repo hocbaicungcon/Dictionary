@@ -28,11 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "1",
-            "asdf",
-            "qwer",
-            "zxcv"}, -1);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.searchTypeComboBox = new System.Windows.Forms.ComboBox();
@@ -115,8 +110,6 @@
             this.Value,
             this.Type,
             this.Date});
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
             this.listView1.Location = new System.Drawing.Point(6, 61);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(557, 385);

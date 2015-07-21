@@ -32,26 +32,33 @@ namespace WindowsFormsApplication1
         public void ReadFile()
         {        
             //Initialize lines numbers
-            LinesNumber = File.ReadLines(_filename).Count();
+            LinesNumber = File.ReadLines(_filename).Count();//don't need to close, it closes automatically
             LinesProcessed = 0;
-
-
-            //Using statement will call a Disposable object on the reader object after exiting using scope
-            //This will ensure secure resources disposal
-            //Use this construction for reading files or any other resource-sensitive objects
-            using (CsvFileReader reader = new CsvFileReader(_filename))
+          
+            try
             {
-                CsvRow row = new CsvRow();
-                while (reader.ReadRow(row))
+                //Using statement will call a Disposable object on the reader object after exiting using scope
+                //This will ensure secure resources disposal
+                //Use this construction for reading files or any other resource-sensitive objects
+                using (CsvFileReader reader = new CsvFileReader(_filename))
                 {
-                    //This will iterate over all the wards in one line
-                    foreach (string s in row)
+                    CsvRow row = new CsvRow();
+                    while (reader.ReadRow(row))
                     {
-                        Output.Add(s);
+                        //This will iterate over all the wards in one line
+                        foreach (string s in row)
+                        {
+                            Output.Add(s);
+                        }
+                        LinesProcessed++;
                     }
-                    LinesProcessed++;
                 }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
     }

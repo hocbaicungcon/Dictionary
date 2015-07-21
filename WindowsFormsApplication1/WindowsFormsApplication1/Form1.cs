@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection.Emit;
 using System.Threading;
 
 
@@ -25,20 +26,44 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            GetFile = new FileReader(@"D:\Projects\C#\Dictionary\WindowsFormsApplication1\WindowsFormsApplication1\Data\plainWords.txt");
-            var oThread = new Thread(new ThreadStart(GetFile.ReadFile));
-            oThread.Start();
-
-            //Warning! it takes like 2 seconds to load all the data from this thread.
-            //When you want to access the data while the thread is working it will cause an exception.
-            //This while will wait till the thread is dead and while thread is working it will spit out logs     
-            while (oThread.IsAlive)
+            OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                System.Console.WriteLine("The thread is processing data:{0}/{1}", GetFile.LinesProcessed, GetFile.LinesNumber);
-                System.Threading.Thread.Sleep(10);
+                InitialDirectory = @"D:\Projects\C#\Dictionary\WindowsFormsApplication1\WindowsFormsApplication1\Data\plainWords.txt",
+                RestoreDirectory = true
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var filename = openFileDialog.FileName;
+                
+                GetFile = new FileReader(filename);
+                var oThread = new Thread(new ThreadStart(GetFile.ReadFile));
+                oThread.Start();
+
+                //Warning! it takes like 2 seconds to load all the data from this thread.
+                //When you want to access the data while the thread is working it will cause an exception.
+                //This while will wait till the thread is dead and while thread is working it will spit out logs     
+                while (oThread.IsAlive)
+                {
+                    System.Console.WriteLine("The thread is processing data:{0}/{1}", GetFile.LinesProcessed, GetFile.LinesNumber);
+                    System.Threading.Thread.Sleep(10);
+                }
+                System.Console.Write(GetFile.LinesProcessed); //check if all the lines were processed
+
+                Update_List();
+                
+                 
             }
-            System.Console.Write(GetFile.LinesProcessed); //check if all the lines were processed
          }
+
+        private void Update_List()
+        {
+            foreach (var word in GetFile.Output)
+            {
+                string[] row = { word.ToString(), "test" };
+                listView1.Items.Add(GetFile.LinesProcessed.ToString()).SubItems.AddRange(row);      
+            }
+        }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
