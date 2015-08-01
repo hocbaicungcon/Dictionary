@@ -1,74 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
-using System.Reflection.Emit;
-using System.Threading;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Form1.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace WindowsFormsApplication1
 {
+    using System;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Windows.Forms;
+
     public partial class Form1 : Form
     {
-        public FileReader GetFile { get; private set; }
-
         public Form1()
         {
             InitializeComponent();
         }
 
+        public FileReader GetFile { get; private set; }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                InitialDirectory = @"D:\Projects\C#\Dictionary\WindowsFormsApplication1\WindowsFormsApplication1\Data\plainWords.txt",
+                InitialDirectory = @"D:\Projects\C#\Dictionary\WindowsFormsApplication1\WindowsFormsApplication1\Data\plainWords.txt", 
                 RestoreDirectory = true
             };
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var filename = openFileDialog.FileName;
-                
                 GetFile = new FileReader(filename);
-                var oThread = new Thread(new ThreadStart(GetFile.ReadFile));
-                oThread.Start();
-
-                //Warning! it takes like 2 seconds to load all the data from this thread.
-                //When you want to access the data while the thread is working it will cause an exception.
-                //This while will wait till the thread is dead and while thread is working it will spit out logs     
-                while (oThread.IsAlive)
-                {
-                    System.Console.WriteLine("The thread is processing data:{0}/{1}", GetFile.LinesProcessed, GetFile.LinesNumber);
-                    System.Threading.Thread.Sleep(10);
-                }
-                System.Console.Write(GetFile.LinesProcessed); //check if all the lines were processed
-
-                Update_List();
                 
-                 
+                // Creating worker to run Reading File in the background
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.WorkerReportsProgress = true; // needs to be set on true to be able to report progress
+                worker.DoWork += (obj, ea) => GetFile.ReadFile(worker); // delegate reading file to the bck worker
+                worker.RunWorkerCompleted += (obj, ea) => this.UpdateList(); // when the work is done, call update list
+                worker.ProgressChanged += new ProgressChangedEventHandler(ReportProgress); // Call ReportProgress() whenever progress is reported from ReadFile()           
+                worker.RunWorkerAsync(); // run the worker in async mode    
             }
          }
 
-        private void Update_List()
+        /// <summary>
+        /// Will be called, whenever progress is reported from worker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReportProgress(object sender, ProgressChangedEventArgs e)
         {
-            foreach (var word in GetFile.Output)
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void UpdateList()
+        {
+            for (int i = 0; i < GetFile.Output.Count(); i++)
             {
-                string[] row = { word.Word, word.Definition, word.Type, word.Date};
-                listView1.Items.Add(GetFile.LinesProcessed.ToString()).SubItems.AddRange(row);      
+                var word = GetFile.Output[i];
+                string[] row = {word.Word, word.Definition, word.Type, word.Date};
+                listView1.Items.Add((i + 1).ToString()).SubItems.AddRange(row);
             }
+
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void BtnSearchClick(object sender, EventArgs e)
         {
-            var output = GetFile.Output;
+            var moreItems = GetFile.Output.FindAll(ni => ni.Word.Equals("adhesive")); // TODO: implement searching
         }
-
     }
 }

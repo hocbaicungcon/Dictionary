@@ -1,8 +1,3 @@
-# English :: Polish dictionary extracted from http://en.wiktionary.org/
-# License :: Creative Commons Attribution-ShareAlike 3.0 Unported License; GNU Free Documentation License
-# Version :: 20141129
-# Size :: 31249 English glosses; 31706 Polish translations
-# URL :: http://en.wiktionary.org/wiki/User:Matthias_Buchmeier
 a {article} (an) SEE: an ::
 a {n} (name of the letter A, a) :: a
 AA {prop} (Alcoholics Anonymous) :: AA {n}
