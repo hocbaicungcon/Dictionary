@@ -1,12 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Form1.cs" company="">
-//   
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace WindowsFormsApplication1
+﻿namespace WindowsFormsApplication1
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
     using System.Windows.Forms;
@@ -15,8 +10,11 @@ namespace WindowsFormsApplication1
     {
         public Form1()
         {
+            Form2 = new Settings();
             InitializeComponent();
         }
+
+        private Settings Form2;
 
         public FileReader GetFile { get; private set; }
 
@@ -38,8 +36,8 @@ namespace WindowsFormsApplication1
                 worker.WorkerReportsProgress = true; // needs to be set on true to be able to report progress
                 worker.DoWork += (obj, ea) => GetFile.ReadFile(worker); // delegate reading file to the bck worker
                 worker.RunWorkerCompleted += (obj, ea) => this.UpdateList(); // when the work is done, call update list
-                worker.ProgressChanged += new ProgressChangedEventHandler(ReportProgress); // Call ReportProgress() whenever progress is reported from ReadFile()           
-                worker.RunWorkerAsync(); // run the worker in async mode    
+                worker.ProgressChanged += new ProgressChangedEventHandler(ReportProgress); // Call ReportProgress() whenever progress is reported from ReadFile()
+                worker.RunWorkerAsync(); // run the worker in async mode
             }
          }
 
@@ -68,6 +66,11 @@ namespace WindowsFormsApplication1
         private void BtnSearchClick(object sender, EventArgs e)
         {
             var moreItems = GetFile.Output.FindAll(ni => ni.Word.Equals("adhesive")); // TODO: implement searching
+        }
+
+        private void Settings_Click(object sender, EventArgs e)
+        {
+            Form2.ShowDialog();
         }
     }
 }

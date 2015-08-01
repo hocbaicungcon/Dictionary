@@ -7,3 +7,4 @@ D:\Projects\C#\Dictionary\WindowsFormsApplication1\WindowsFormsApplication1\obj\
 D:\Projects\C#\Dictionary\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
 D:\Projects\C#\Dictionary\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
 D:\Projects\C#\Dictionary\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+D:\Projects\C#\Dictionary\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Settings.resources
