@@ -12,13 +12,15 @@ namespace WindowsFormsApplication1
             
         }
 
-        public MyWord(string word, string definition, string type, string date)
+        public MyWord(string id, string word, string definition, string type, string date)
         {
+            ID = id;
             Word = word;
             Definition = definition;
             Type = type;
             Date = date;
         }
+        public string ID { get; set; }
 
         public string Word { get; set; }
 
@@ -28,85 +30,68 @@ namespace WindowsFormsApplication1
 
         public string Date { get; set; }
 
-
-        public MyWord SetValues(List<string> valuesList)
-        {
-            try
-            {
-                Word = valuesList[0];
-                Definition = valuesList[1];
-                Type = valuesList[2];
-                Date = valuesList[3];
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine(ex.Message);
-            }
-
-            return this;
-        }
     }
 
     public class Noun : MyWord
     {
-        public Noun(string word, string definition, string type, string date)
-            : base(word, definition, type, date)
+        public Noun(string id, string word, string definition, string type, string date)
+            : base(id, word, definition, type, date)
         {
         }
     }
 
     public class Verb : MyWord
     {
-        public Verb(string word, string definition, string type, string date)
-            : base(word, definition, type, date)
+        public Verb(string id, string word, string definition, string type, string date)
+            : base(id, word, definition, type, date)
         {
         }
     }
 
     public class Adjective : MyWord
     {
-        public Adjective(string word, string definition, string type, string date)
-            : base(word, definition, type, date)
+        public Adjective(string id, string word, string definition, string type, string date)
+            : base(id, word, definition, type, date)
         {
         }
     }
 
     public class Adverb : MyWord
     {
-        public Adverb(string word, string definition, string type, string date)
-            : base(word, definition, type, date)
+        public Adverb(string id, string word, string definition, string type, string date)
+            : base(id, word, definition, type, date)
         {
         }
     }
 
     public class Saying : MyWord
     {
-        public Saying(string word, string definition, string type, string date)
-            : base(word, definition, type, date)
+        public Saying(string id, string word, string definition, string type, string date)
+            : base(id, word, definition, type, date)
         {
         }
     }
 
     public class Preposition : MyWord
     {
-        public Preposition(string word, string definition, string type, string date)
-            : base(word, definition, type, date)
+        public Preposition(string id, string word, string definition, string type, string date)
+            : base(id, word, definition, type, date)
         {
         }
     }
 
     public class Idiom : MyWord
     {
-        public Idiom(string word, string definition, string type, string date)
-            : base(word, definition, type, date)
+        public Idiom(string id,string word, string definition, string type, string date)
+            : base(id, word, definition, type, date)
         {
         }
     }
 
         public class PhrasalVerb : MyWord
     {
-        public PhrasalVerb(string word, string definition, string type, string date)
-            : base(word, definition, type, date)
+        public PhrasalVerb(string id,string word, string definition, string type, string date)
+            : base(id, word, definition, type, date)
         {
         }
     }
